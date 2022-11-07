@@ -65,7 +65,10 @@ function Register1Screen() {
                 />
                 <Text style={styles.checkTextStyle}>개인 정보 수집, 이용 동의 (필수)</Text>
             </View>
-            <TouchableOpacity style={styles.buttonStyle} >
+            <TouchableOpacity
+                style={styles.buttonStyle}
+                onPress={onPressNext}
+            >
                 <Button
                     onPress={onPressNext}
                     title={'확  인'}
