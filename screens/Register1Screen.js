@@ -1,19 +1,15 @@
-import { SafeAreaView, Text, StyleSheet, View, Button, Alert } from 'react-native';
+import { SafeAreaView, Text, StyleSheet, View, Button, Alert, TextInput, TouchableOpacity } from 'react-native';
 import CheckBox from 'expo-checkbox';
 import React, { useState } from "react";
 import Color from '../colors/uosColors';
-import InfoEntry from "../components/infoEntry";
 
 function Register1Screen() {
-    const [name, onEndEditingName] = useState('')
-    const [classNum, onEndEditingClassNum] = useState(0)
-    const [phoneNum, onEndEditingPhoneNum] = useState(0)
+    const [name, setName] = useState('')
+    const [classNum, setClassNum] = useState(0)
+    const [phoneNum, setPhoneNum] = useState(0)
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
 
     const onPressNext = () => {
-        onEndEditingName('');
-        onEndEditingClassNum(0);
-        onEndEditingPhoneNum(0);
         if (name == '')
             Alert.alert("이름이 올바르지 않습니다.")
         else if (classNum.length != 10)
@@ -30,23 +26,32 @@ function Register1Screen() {
             <Text style={styles.titleStyle}>SITUDY ROOM</Text>
             <View style={styles.entryViewStyle}>
                 <Text style={styles.entryTitleStyle}>이름</Text>
-                <InfoEntry
-                    variable={name}
-                    content={'조수아'}
+                <TextInput
+                    style={styles.inputStyle}
+                    value={name}
+                    onChangeText={setName}
+                    placeholder={'홍길동'}
+                    returnKeyType="done"
                 />
                 <Text style={styles.entryTitleStyle}>학번</Text>
-                <InfoEntry
-                    variable={classNum}
-                    content={'2021920056'}
+                <TextInput
+                    style={styles.inputStyle}
+                    value={classNum}
+                    onChangeText={setClassNum}
+                    placeholder={'2022000000'}
                     keyboardType="number-pad"
                     maxLength={10}
+                    returnKeyType="done"
                 />
                 <Text style={styles.entryTitleStyle}>전화번호</Text>
-                <InfoEntry
-                    variable={phoneNum}
-                    content={'010-0000-0000'}
+                <TextInput
+                    style={styles.inputStyle}
+                    value={phoneNum}
+                    onChangeText={setPhoneNum}
+                    placeholder={'010-0000-0000'}
                     keyboardType="number-pad"
                     maxLength={11}
+                    returnKeyType="done"
                 />
             </View>
 
@@ -60,16 +65,14 @@ function Register1Screen() {
                 />
                 <Text style={styles.checkTextStyle}>개인 정보 수집, 이용 동의 (필수)</Text>
             </View>
-
-            <View style={styles.buttonStyle}>
+            <TouchableOpacity style={styles.buttonStyle} >
                 <Button
                     onPress={onPressNext}
                     title={'확  인'}
                     color={'white'}
                     fontSize={30}
                 />
-            </View>
-
+            </TouchableOpacity>
         </SafeAreaView>
     )
 }
@@ -94,6 +97,18 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         fontSize: 20,
         fontStyle: 'bold'
+    },
+    inputStyle: {
+        height: 50,
+        width: 360,
+        borderColor: Color.blueSoft,
+        borderWidth: 2,
+        borderRadius: 4,
+        marginTop: 15,
+        marginLeft: 15,
+        padding: 10,
+        textAlign: 'left',
+        fontSize: 20,
     },
     /* 체크박스 */
     checkViewStyle: {

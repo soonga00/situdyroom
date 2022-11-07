@@ -1,58 +1,67 @@
 import React, { useState } from "react";
-import { SafeAreaView, Text, StyleSheet, View, Button, TextInput } from 'react-native';
+import { SafeAreaView, Text, StyleSheet, View, Button, TextInput, TouchableOpacity, Alert } from 'react-native';
 import Color from '../colors/uosColors';
-import InfoEntry from "../components/infoEntry";
 
 function LoginScreen({ navigation }) {
     const [ID, onEndEditingID] = useState('')
     const [PW, onEndEditingPW] = useState('')
 
-    const onPressNext = () => {
-        onEndEditingID('');
-        onEndEditingPW('');
+    const onPressLogin = () => {
+        if (ID == '')
+            Alert.alert("아이디가 올바르지 않습니다.")
+        else if (PW == '')
+            Alert.alert("비밀번호가 올바르지 않습니다.")
     }
     const onPressFind = () => {
+        navigation.navigate('Find ID')
     }
     return (
         <SafeAreaView>
             <Text style={styles.titleStyle}>SITUDY ROOM</Text>
             <View style={styles.entryViewStyle}>
                 <Text style={styles.entryTitleStyle}>아이디 (ID)</Text>
-                <InfoEntry
-                    variable={ID}
-                    content={''}
+                <TextInput
+                    style={styles.inputStyle}
+                    value={ID}
+                    onChangeText={onEndEditingID}
+                    placeholder={''}
+                    returnKeyType="done"
                 />
                 <Text style={styles.entryTitleStyle}>비밀번호 (PW)</Text>
                 <TextInput
                     style={styles.inputStyle}
                     value={PW}
+                    onChangeText={onEndEditingPW}
                     placeholder={''}
                     returnKeyType="done"
                     secureTextEntry
                 />
             </View>
-            <View style={styles.buttonStyle}>
+            <TouchableOpacity style={styles.buttonStyle} onPress={onPressLogin}>
                 <Button
-                    onPress={onPressNext}
+                    onPress={onPressLogin}
                     title={'로 그 인'}
                     color={'white'}
                     fontSize={30}
                 />
-            </View>
+            </TouchableOpacity>
             <View style={styles.border}>
             </View>
             <View>
                 <Text onPress={onPressFind} style={styles.findIDPW}>아이디 · 비밀번호 찾기</Text>
                 <Text style={styles.forRegister}>시터디룸이 처음이라면?</Text>
             </View>
-            <View style={styles.registerButtonStyle}>
+            <TouchableOpacity
+                style={styles.registerButtonStyle}
+                onPress={() => navigation.navigate('Register1')}
+            >
                 <Button
                     onPress={() => navigation.navigate('Register1')}
                     title={'회 원 가 입'}
                     color={'white'}
                     fontSize={30}
                 />
-            </View>
+            </TouchableOpacity>
         </SafeAreaView>
 
     )
