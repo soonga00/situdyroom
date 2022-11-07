@@ -3,8 +3,8 @@ import { SafeAreaView, Text, StyleSheet, View, Button, TextInput, TouchableOpaci
 import Color from '../colors/uosColors';
 
 function LoginScreen({ navigation }) {
-    const [ID, onEndEditingID] = useState('')
-    const [PW, onEndEditingPW] = useState('')
+    const [ID, setID] = useState('')
+    const [PW, setPW] = useState('')
 
     const onPressLogin = () => {
         if (ID == '')
@@ -23,7 +23,7 @@ function LoginScreen({ navigation }) {
                 <TextInput
                     style={styles.inputStyle}
                     value={ID}
-                    onChangeText={onEndEditingID}
+                    onChangeText={setID}
                     placeholder={''}
                     returnKeyType="done"
                 />
@@ -31,7 +31,7 @@ function LoginScreen({ navigation }) {
                 <TextInput
                     style={styles.inputStyle}
                     value={PW}
-                    onChangeText={onEndEditingPW}
+                    onChangeText={setPW}
                     placeholder={''}
                     returnKeyType="done"
                     secureTextEntry
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     forRegister: {
         color: Color.gray,
         marginTop: 40,
-        fontSize: 18,
+        fontSize: 17,
         alignContent: 'center',
         textAlign: 'center',
     },

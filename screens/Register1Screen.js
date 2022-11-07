@@ -3,7 +3,7 @@ import CheckBox from 'expo-checkbox';
 import React, { useState } from "react";
 import Color from '../colors/uosColors';
 
-function Register1Screen() {
+function Register1Screen(navigation) {
     const [name, setName] = useState('')
     const [classNum, setClassNum] = useState(0)
     const [phoneNum, setPhoneNum] = useState(0)
@@ -18,7 +18,8 @@ function Register1Screen() {
             Alert.alert("전화번호가 올바르지 않습니다.")
         else if (toggleCheckBox == false)
             Alert.alert("개인정보 수집, 이용 동의를 눌러주세요.")
-
+        else
+            navigation.navigation.navigate('Register2')
 
     }
     return (
