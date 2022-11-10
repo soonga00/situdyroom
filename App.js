@@ -6,10 +6,21 @@ import Register1Screen from "./screens/Register1Screen";
 import Register2Screen from "./screens/Register2Screen";
 import FindIDScreen from "./screens/FindIDScreen";
 import FindPWScreen from "./screens/FindPWScreen";
-
+import axios from "axios";
 const Stack = createNativeStackNavigator();
 
+
+
 function App() {
+
+  const callApi = async () => {
+    axios.get("/api").then((res) => { console.log(res.data.test) });
+  };
+
+  useEffect(() => {
+    callApi();
+  }, []);
+
   return <NavigationContainer>
     <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Login" component={LoginScreen} />
