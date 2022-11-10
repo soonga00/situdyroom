@@ -35,6 +35,7 @@ function Register2Screen(navigation) {
                     value={PW}
                     onChangeText={setPW}
                     placeholder={'비밀번호를 입력해주세요'}
+                    secureTextEntry
                     maxLength={20}
                     returnKeyType="done"
                 />
@@ -44,6 +45,7 @@ function Register2Screen(navigation) {
                     value={PW2}
                     onChangeText={setPW2}
                     placeholder={'비밀번호를 다시 입력해주세요'}
+                    secureTextEntry
                     maxLength={20}
                     returnKeyType="done"
                 />
