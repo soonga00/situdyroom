@@ -2,7 +2,7 @@ import { SafeAreaView, Text, StyleSheet, View, Button, Alert, TextInput, Touchab
 import React, { useState } from "react";
 import Color from '../colors/uosColors';
 
-function Register2Screen(navigation) {
+function Register2Screen({ navigation }) {
     const [ID, setID] = useState('')
     const [PW, setPW] = useState('')
     const [PW2, setPW2] = useState('')
@@ -14,6 +14,8 @@ function Register2Screen(navigation) {
             Alert.alert("비밀번호가 올바르지 않습니다.")
         else if (PW != PW2)
             Alert.alert("비밀번호를 다시 확인하세요")
+        else
+            navigation.navigate('Register3')
 
 
     }

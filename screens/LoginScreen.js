@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SafeAreaView, Text, StyleSheet, View, Button, TextInput, TouchableOpacity, Alert } from 'react-native';
 import Color from '../colors/uosColors';
+import Main from './MainScreen';
 
 function LoginScreen({ navigation }) {
     const [ID, setID] = useState('')
@@ -11,6 +12,7 @@ function LoginScreen({ navigation }) {
             Alert.alert("아이디가 올바르지 않습니다.")
         else if (PW == '')
             Alert.alert("비밀번호가 올바르지 않습니다.")
+        navigation.navigate('Main')
     }
     const onPressFind = () => {
         navigation.navigate('Find ID')
