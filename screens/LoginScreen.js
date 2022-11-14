@@ -9,16 +9,20 @@ function LoginScreen({ navigation }) {
     const [PW, setPW] = useState('')
 
     const onPressLogin = () => {
-        axios.post('http://localhost:3000/user', {
-            firstName: 'Fred',
+        axios.post('http://localhost:3001/user', {
+            firstName: 'ffffffffff',
             lastName: 'Flintstone'
         })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        .then(function (response) {
+            // console.log(response.config.data,3);
+            // console.log(response,4);
+            // navigation.navigate('Main')
+            console.log(response.config.data);
+            console.log(response.config.data.lastName);
+        })
+        .catch(function (error) {
+            console.error(error,6);
+        });
         if (ID == '')
             Alert.alert("아이디가 올바르지 않습니다.")
         else if (PW == '')
