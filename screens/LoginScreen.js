@@ -2,12 +2,23 @@ import React, { useState } from "react";
 import { SafeAreaView, Text, StyleSheet, View, Button, TextInput, TouchableOpacity, Alert } from 'react-native';
 import Color from '../colors/uosColors';
 import Main from './MainScreen';
+import axios from 'axios';
 
 function LoginScreen({ navigation }) {
     const [ID, setID] = useState('')
     const [PW, setPW] = useState('')
 
     const onPressLogin = () => {
+        axios.post('http://localhost:3000/user', {
+            firstName: 'Fred',
+            lastName: 'Flintstone'
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         if (ID == '')
             Alert.alert("아이디가 올바르지 않습니다.")
         else if (PW == '')
