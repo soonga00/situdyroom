@@ -9,26 +9,25 @@ function LoginScreen({ navigation }) {
     const [PW, setPW] = useState('')
 
     const onPressLogin = () => {
-        axios.post('http://localhost:3001/user', {
-            firstName: 'ffffffffff',
-            lastName: 'Flintstone'
-        })
-        .then(function (response) {
-            // console.log(response.config.data,3);
-            // console.log(response,4);
-            // navigation.navigate('Main')
-            console.log(response.config.data);
-            console.log(response.config.data.lastName);
-        })
-        .catch(function (error) {
-            console.error(error,6);
-        });
         if (ID == '')
             Alert.alert("아이디가 올바르지 않습니다.")
         else if (PW == '')
             Alert.alert("비밀번호가 올바르지 않습니다.")
-        navigation.navigate('Main')
+        axios.post('http://10.0.18.156:3001/user', {
+            inputID : ID,
+            inputPW : PW
+        })
+        .then(function (response) {
+            if (response.data)
+                navigation.navigate('Main');
+            else
+                Alert.alert("Login Failed")
+        })
+        .catch(function (error) {
+            console.log(`login post error : ${error}`);
+        });
     }
+
     const onPressFind = () => {
         navigation.navigate('Find ID')
     }
