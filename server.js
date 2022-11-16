@@ -24,7 +24,12 @@ app.post("/user", function (req, res) {
     var post = req.body;
     db.query(`select mb_pw from users where mb_id = "${post.inputID}"`, function (err, rows, fields) {
         if (err) console.log(err);
-        if (rows[0].mb_pw === post.inputPW){
+        if (!rows.len)
+        {
+            console.log('login failed');
+            res.json(false);
+        }
+        else if (rows[0].mb_pw === post.inputPW){
             console.log('login success');
             res.json(true);
             
