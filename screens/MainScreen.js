@@ -1,11 +1,10 @@
 import { StyleSheet, Text, SafeAreaView, TouchableOpacity, Button } from 'react-native'
 import React from 'react'
 import Color from '../colors/uosColors';
-
 function MainScreen({ navigation }) {
 
     const onPressReserv = () => {
-
+        navigation.navigate('Four Reservation')
     }
     const onPressCheckReserv = () => {
 
