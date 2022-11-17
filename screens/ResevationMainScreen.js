@@ -1,16 +1,30 @@
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Color from '../colors/uosColors';
 
 function ResevationMainScreen({ navigation }) {
+
+    const onPressFour = () => {
+        navigation.navigate('Four Reservation')
+    }
+    const onPressSix = () => {
+        navigation.navigate('Six Reservation')
+    }
+
     return (
         <SafeAreaView>
-            <ScrollView>
-                <Text style={styles.titleStyle}>SITUDY ROOM</Text>
-                <View>
-                    <View></View>
-                </View>
-            </ScrollView>
+
+            <Text style={styles.titleStyle}>SITUDY ROOM</Text>
+            <View style={styles.buttonWrapperStyle} >
+                <TouchableOpacity style={styles.buttonStyle} onPress={onPressFour}>
+                    <Text style={styles.textStyle}>STUDY ROOM 1</Text>
+                    <Text style={styles.textStyle}>4 인 실</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonStyle} onPress={onPressSix}>
+                    <Text style={styles.textStyle}>STUDY ROOM 2</Text>
+                    <Text style={styles.textStyle}>6 인 실</Text>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     )
 }
@@ -25,17 +39,27 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         textAlign: 'center',
     },
+    buttonWrapperStyle: {
+        marginTop: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     /* 버튼 */
     buttonStyle: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 70,
-        marginHorizontal: 100,
-        width: 180,
-        height: 50,
+        width: 230,
+        height: 80,
+        marginTop: 60,
         backgroundColor: Color.blue,
-        borderRadius: 5
+        borderRadius: 5,
+
+
     },
+    textStyle: {
+        fontSize: 30,
+        color: 'white'
+    }
 });
 
 export default ResevationMainScreen;

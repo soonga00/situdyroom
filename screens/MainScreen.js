@@ -4,7 +4,7 @@ import Color from '../colors/uosColors';
 function MainScreen({ navigation }) {
 
     const onPressReserv = () => {
-        navigation.navigate('Four Reservation')
+        navigation.navigate('Main Reservation')
     }
     const onPressCheckReserv = () => {
 
@@ -21,7 +21,7 @@ function MainScreen({ navigation }) {
             <Text style={styles.titleStyle}>SITUDY ROOM</Text>
             <TouchableOpacity style={styles.buttonStyle} onPress={onPressReserv}>
                 <Button
-                    onPress={onPressReserv}
+
                     title={'예 약 하 기'}
                     color={'white'}
                     fontSize={30}
@@ -29,7 +29,7 @@ function MainScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonStyle} onPress={onPressCheckReserv}>
                 <Button
-                    onPress={onPressCheckReserv}
+
                     title={'예 약 확 인'}
                     color={'white'}
                     fontSize={30}
@@ -37,7 +37,7 @@ function MainScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonStyle} onPress={onPressEnter}>
                 <Button
-                    onPress={onPressEnter}
+
                     title={'입 실 신 청'}
                     color={'white'}
                     fontSize={30}
@@ -45,7 +45,7 @@ function MainScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonStyle} onPress={onPressBoard}>
                 <Button
-                    onPress={onPressBoard}
+
                     title={'게 시 판'}
                     color={'white'}
                     fontSize={30}
