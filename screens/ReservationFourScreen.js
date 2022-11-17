@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal, TextInput } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Table, Row, Col, TableWrapper, Cell } from 'react-native-table-component'
 import Color from '../colors/uosColors';
 import { useState } from 'react';
@@ -13,15 +13,29 @@ function ReservationFourScreen({ navigation }) {
     const [classNum3, setClassNum3] = useState(0)
     const [classNum4, setClassNum4] = useState(0)
     const [duration, setDuration] = useState(0)
+    const [RowNum, setRow] = useState(0)
+    const [ColNum, setCol] = useState(0)
 
-    const cellSelected = (row, col) => {
-        Alert.alert(row + " " + col)
-
-    }
+    const cellPossible = (rowNum, colNum) => (
+        < TouchableOpacity onPress={() => { setModalVisible(true), setDuration(0), setRow(rowNum), setCol(colNum) }}>
+            <View style={styles.reservationPossible}>
+                <Text>      </Text>
+            </View>
+        </TouchableOpacity >
+    )
     const reserve = () => {
-        Alert.alert(classNum1 + "/" + classNum2 + "/" + classNum3 + "/" + classNum4 + "/" + duration)
-        setModalVisible(false)
-        navigation.navigate('Main')
+        if (classNum1.length != 10)
+            Alert.alert("4인실 최소 예약 인원은\n 2명 입니다.\n 학번을 다시 입력하세요")
+        else if (classNum2.length != 10)
+            Alert.alert("4인실 최소 예약 인원은 2명 입니다.\n 학번을 다시 입력하세요")
+        else if (duration == 0)
+            Alert.alert("시간을 선택하세요")
+        else {
+            Alert.alert("예약이 완료되었습니다\n 학번\n" + classNum1 + "\n" + classNum2 + "\n" + classNum3 + "\n" + classNum4 + "\n시간\n" + duration + "\n" + RowNum + "행" + ColNum + "열")
+            setModalVisible(false)
+            navigation.navigate('Main')
+        }
+
     }
 
 
@@ -79,18 +93,10 @@ function ReservationFourScreen({ navigation }) {
         [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
         [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-
-
     ];
-    const element = (data, index) => (
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <View style={styles.reservationPossible}>
-                <Text>      </Text>
-            </View>
-        </TouchableOpacity>
-    )
 
     return (
+
         <SafeAreaView>
             <Modal
                 animationType='slide'
@@ -138,17 +144,17 @@ function ReservationFourScreen({ navigation }) {
                         />
                         <Text style={styles.modalTextStyle}>사용 시간</Text>
                         <View style={styles.durationStyle}>
-                            <TouchableOpacity onPress={() => setDuration(0.5)}>
+                            <TouchableOpacity onPress={() => setDuration(1)}>
                                 <View style={styles.durationCheckStyle}>
                                     <Text style={styles.durationTextStyle}>0.5h</Text>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setDuration(1)}>
+                            <TouchableOpacity onPress={() => setDuration(2)}>
                                 <View style={styles.durationCheckStyle}>
                                     <Text style={styles.durationTextStyle}>1h</Text>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setDuration(1.5)}>
+                            <TouchableOpacity onPress={() => setDuration(3)}>
                                 <View style={styles.durationCheckStyle}>
                                     <Text style={styles.durationTextStyle}>1.5h</Text>
                                 </View>
@@ -156,17 +162,17 @@ function ReservationFourScreen({ navigation }) {
                         </View>
                         <View style={styles.durationStyle}>
 
-                            <TouchableOpacity onPress={() => setDuration(2)}>
+                            <TouchableOpacity onPress={() => setDuration(4)}>
                                 <View style={styles.durationCheckStyle}>
                                     <Text style={styles.durationTextStyle}>2h</Text>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setDuration(2.5)}>
+                            <TouchableOpacity onPress={() => setDuration(5)}>
                                 <View style={styles.durationCheckStyle}>
                                     <Text style={styles.durationTextStyle}>2.5h</Text>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setDuration(3)}>
+                            <TouchableOpacity onPress={() => setDuration(6)}>
                                 <View style={styles.durationCheckStyle}>
                                     <Text style={styles.durationTextStyle}>3h</Text>
                                 </View>
@@ -175,7 +181,12 @@ function ReservationFourScreen({ navigation }) {
                         <View style={styles.reserveStyle}>
                             <TouchableOpacity onPress={() => { reserve() }}>
                                 <View style={styles.reserveButtonStyle}>
-                                    <Text style={styles.durationTextStyle}>예약</Text>
+                                    <Text style={styles.durationTextStyle}>예 약</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => setModalVisible(false)}>
+                                <View style={styles.reserveButtonStyle}>
+                                    <Text style={styles.durationTextStyle}>취 소</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -194,7 +205,6 @@ function ReservationFourScreen({ navigation }) {
                             textStyle={styles.tableTextStyle} />
                         <TableWrapper
                             style={styles.tableWrapperStyle}
-                            flexArr={[]}
                         >
                             <Col data={tableTime}
                                 width={78}
@@ -207,7 +217,8 @@ function ReservationFourScreen({ navigation }) {
                                     <TableWrapper key={index} style={styles.timeStyle} >
                                         {
                                             rowData.map((cellData, cellIndex) => (
-                                                <Cell key={cellIndex} data={index == 1 ? element(cellIndex, index) : cellData} />
+                                                <Cell key={cellIndex} data={index == 1 ? cellPossible(cellIndex, index) : cellData} />
+
                                             ))
                                         }
                                     </TableWrapper>
@@ -324,13 +335,15 @@ const styles = StyleSheet.create({
         fontSize: 22
     },
     reserveStyle: {
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
     },
     reserveButtonStyle: {
         backgroundColor: Color.blue,
         marginTop: 30,
-        width: 150,
+        margin: 5,
+        width: 100,
         height: 50,
         borderRadius: 5,
         justifyContent: 'center',
