@@ -1,4 +1,4 @@
-import { StyleSheet, Text, SafeAreaView, TouchableOpacity, Button } from 'react-native'
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity, Button, View } from 'react-native'
 import React from 'react'
 import Color from '../colors/uosColors';
 function MainScreen({ navigation }) {
@@ -12,69 +12,74 @@ function MainScreen({ navigation }) {
     const onPressEnter = () => {
 
     }
-    const onPressBoard = () => {
-
-    }
 
     return (
         <SafeAreaView>
-            <Text style={styles.titleStyle}>SITUDY ROOM</Text>
-            <TouchableOpacity style={styles.buttonStyle} onPress={onPressReserv}>
-                <Button
+            <View style={styles.horizontalCentered}>
+                <Text style={styles.titleStyle}>SITUDY ROOM</Text>
+                <TouchableOpacity style={styles.buttonStyle} onPress={onPressReserv}>
+                    <Text style={styles.buttonTextStyle}>예 약 하 기</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonStyle} onPress={onPressCheckReserv}>
+                    <Text style={styles.buttonTextStyle}>예 약 확 인</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.enterView}>
+                <TouchableOpacity style={styles.button2Style} onPress={onPressEnter}>
+                    <Text style={styles.buttonText2Style}>입 실</Text>
+                    <Text style={styles.buttonText2Style}> </Text>
+                    <Text style={styles.buttonText2Style}>신 청</Text>
+                </TouchableOpacity>
 
-                    title={'예 약 하 기'}
-                    color={'white'}
-                    fontSize={30}
-                />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonStyle} onPress={onPressCheckReserv}>
-                <Button
+            </View>
 
-                    title={'예 약 확 인'}
-                    color={'white'}
-                    fontSize={30}
-                />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonStyle} onPress={onPressEnter}>
-                <Button
-
-                    title={'입 실 신 청'}
-                    color={'white'}
-                    fontSize={30}
-                />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonStyle} onPress={onPressBoard}>
-                <Button
-
-                    title={'게 시 판'}
-                    color={'white'}
-                    fontSize={30}
-                />
-            </TouchableOpacity>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
+    horizontalCentered: {
+        alignItems: 'center'
+    },
+    enterView: {
+        marginTop: 40,
+        marginLeft: 280,
+
+    },
     /* 제목 */
     titleStyle: {
         color: Color.blue,
         marginTop: 60,
+        marginBottom: 20,
         fontSize: 50,
         fontStyle: 'bold',
-        alignContent: 'center',
-        textAlign: 'center',
     },
     /* 버튼 */
     buttonStyle: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 70,
-        marginHorizontal: 100,
-        width: 180,
-        height: 50,
+        marginTop: 90,
+        width: 250,
+        height: 100,
         backgroundColor: Color.blue,
         borderRadius: 5
+    },
+    button2Style: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 60,
+        width: 80,
+        height: 80,
+        backgroundColor: Color.blueLight,
+        borderRadius: 80
+    },
+    buttonTextStyle: {
+        color: 'white',
+        fontSize: 27
+    },
+    buttonText2Style: {
+        color: 'white',
+        fontSize: 15
     },
 });
 

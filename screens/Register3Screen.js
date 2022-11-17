@@ -3,7 +3,7 @@ import {
     SafeAreaView,
     TouchableOpacity,
     StyleSheet,
-    Button,
+    View,
     ActionSheetIOS,
 } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
@@ -71,30 +71,30 @@ function Register3Screen({ navigation }) {
 
     return (
         <SafeAreaView>
-            <Text style={styles.titleStyle}>SITUDY ROOM</Text>
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                onPress={onPress}
-            >
-                <Button
-                    title={'학생증 등록하기'}
-                    color={'white'}
-                    fontSize={30}
+            <View style={styles.titleStyle}>
+                <Text style={styles.titleStyle}>SITUDY ROOM</Text>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
                     onPress={onPress}
-                />
-            </TouchableOpacity>
+                >
+                    <Text style={styles.textStyle}>학생증 등록하기</Text>
+                </TouchableOpacity>
+            </View>
+
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    horizontalCentered: {
+        alignItems: 'center'
+    },
     /* 제목 */
     titleStyle: {
         color: Color.blue,
-        marginTop: 60,
+        marginTop: 30,
         fontSize: 50,
         fontStyle: 'bold',
-        alignContent: 'center',
         textAlign: 'center',
     },
 
@@ -105,10 +105,14 @@ const styles = StyleSheet.create({
         marginTop: 220,
         marginHorizontal: 105,
         width: 180,
-        height: 50,
+        height: 60,
         backgroundColor: Color.blue,
         borderRadius: 5
-    }
+    },
+    textStyle: {
+        fontSize: 18,
+        color: 'white'
+    },
 });
 
 export default Register3Screen;

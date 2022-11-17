@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { SafeAreaView, Text, StyleSheet, View, Button, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { SafeAreaView, Text, StyleSheet, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import Color from '../colors/uosColors';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 function FindIDScreen({ navigation }) {
     const [name, setName] = useState('')
     const [classNum, setClassNum] = useState(0)
     const [phoneNum, setPhoneNum] = useState(0)
-    const [certifyNum, setCertifyNum] = useState(0)
+    const [certifyNum, setCertifyNum] = useState('')
 
     const onPressSend = () => {
         if (name == '')
@@ -20,79 +21,82 @@ function FindIDScreen({ navigation }) {
          */
     }
     const onPressCheck = () => {
-        navigation.navigate('Find PW')
+        if (certifyNum == '')
+            Alert.alert("인증번호가 올바르지 않습니다.\n다시 입력하세요.")
+        else if (certifyNum == '0724')
+            Alert.alert("이건 수아 생일!")
+        else if (certifyNum == '0317')
+            Alert.alert("이건 영규 생일!")
+        else if (certifyNum == '0315')
+            Alert.alert("이건 도현 생일!")
+        else
+            Alert.alert("틀렸습니다.")
     }
     const onPressPW = () => {
         navigation.navigate('Find PW')
     }
     return (
         <SafeAreaView>
-            <Text style={styles.titleStyle}>SITUDY ROOM</Text>
-            <View style={styles.entryViewStyle}>
-                <Text style={styles.IDStyle}>아이디 찾기</Text>
-                <Text style={styles.entryTitleStyle}>이름</Text>
-                <TextInput
-                    style={styles.inputStyle}
-                    value={name}
-                    onChangeText={setName}
-                    placeholder={'홍길동'}
-                    returnKeyType="done"
-                />
-                <Text style={styles.entryTitleStyle}>학번</Text>
-                <TextInput
-                    style={styles.inputStyle}
-                    value={classNum}
-                    onChangeText={setClassNum}
-                    placeholder={'2022000000'}
-                    keyboardType="number-pad"
-                    maxLength={10}
-                    returnKeyType="done"
-                />
-                <Text style={styles.entryTitleStyle}>전화번호</Text>
-                <View style={styles.pwViewStyle}>
-                    <TextInput
-                        style={styles.pwInputStyle}
-                        value={phoneNum}
-                        onChangeText={setPhoneNum}
-                        placeholder={'010-0000-0000'}
-                        keyboardType="number-pad"
-                        maxLength={11}
-                        returnKeyType="done"
-                    />
-                    <TouchableOpacity style={styles.pwButtonStyle} onPress={onPressSend}>
-                        <Button
-                            onPress={onPressSend}
-                            title={'전 송'}
-                            color={'white'}
-                            fontSize={30}
+            <KeyboardAwareScrollView>
+                <View style={styles.horizontalCentered}>
+                    <Text style={styles.titleStyle}>SITUDY ROOM</Text>
+                    <Text style={styles.IDStyle}>아이디 찾기</Text>
+                    <View style={styles.entryViewStyle}>
+                        <Text style={styles.entryTitleStyle}>이름</Text>
+                        <TextInput
+                            style={styles.inputStyle}
+                            value={name}
+                            onChangeText={setName}
+                            placeholder={'홍길동'}
+                            returnKeyType="done"
                         />
+                        <Text style={styles.entryTitleStyle}>학번</Text>
+                        <TextInput
+                            style={styles.inputStyle}
+                            value={classNum}
+                            onChangeText={setClassNum}
+                            placeholder={'2022000000'}
+                            keyboardType="number-pad"
+                            maxLength={10}
+                            returnKeyType="done"
+                        />
+                        <Text style={styles.entryTitleStyle}>전화번호</Text>
+                        <View style={styles.pnViewStyle}>
+                            <TextInput
+                                style={styles.pwInputStyle}
+                                value={phoneNum}
+                                onChangeText={setPhoneNum}
+                                placeholder={'010-0000-0000'}
+                                keyboardType="number-pad"
+                                maxLength={11}
+                                returnKeyType="done"
+                            />
+                            <TouchableOpacity style={styles.pwButtonStyle} onPress={onPressSend}>
+                                <Text style={styles.textStyle}>전 송</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={styles.entryTitleStyle}>인증번호</Text>
+                        <TextInput
+                            style={styles.inputStyle}
+                            value={certifyNum}
+                            onChangeText={setCertifyNum}
+                            placeholder={'인증번호를 입력해주세요.'}
+                            keyboardType="number-pad"
+                            maxLength={4}
+                            returnKeyType="done"
+                        />
+                    </View>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={onPressCheck}>
+                        <Text style={styles.textStyle}>확 인</Text>
                     </TouchableOpacity>
+                    <View style={styles.border}>
+                    </View>
+                    <Text
+                        style={styles.findPW}
+                        onPress={onPressPW}
+                    >비밀번호 찾기</Text>
                 </View>
-                <Text style={styles.entryTitleStyle}>인증번호</Text>
-                <TextInput
-                    style={styles.inputStyle}
-                    value={certifyNum}
-                    onChangeText={setCertifyNum}
-                    placeholder={'인증번호를 입력해주세요.'}
-                    keyboardType="number-pad"
-                    maxLength={4}
-                    returnKeyType="done"
-                />
-            </View>
-            <TouchableOpacity style={styles.buttonStyle} onPress={onPressCheck}>
-                <Button
-                    onPress={onPressCheck}
-                    title={'확 인'}
-                    color={'white'}
-                    fontSize={30}
-                />
-            </TouchableOpacity>
-            <View style={styles.border}>
-            </View>
-            <Text
-                style={styles.findPW}
-                onPress={onPressPW}
-            >비밀번호 찾기</Text>
+            </KeyboardAwareScrollView>
 
         </SafeAreaView>
 
@@ -100,31 +104,32 @@ function FindIDScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+    horizontalCentered: {
+        alignItems: 'center'
+    },
     /* 제목 */
     titleStyle: {
         color: Color.blue,
-        marginTop: 20,
+        marginTop: 30,
         fontSize: 50,
         fontStyle: 'bold',
-        alignContent: 'center',
-        textAlign: 'center',
     },
     /* 아이디 찾기 */
     IDStyle: {
-        alignContent: 'center',
-        textAlign: 'center',
+        marginTop: 30,
         fontStyle: 'bold',
         fontSize: 30,
         color: Color.gray,
     },
     /* 입력창 */
     entryViewStyle: {
-        marginTop: 40
+        alignContent: 'center',
+        marginTop: 10
     },
     entryTitleStyle: {
         color: Color.blue,
-        marginTop: 20,
         marginLeft: 20,
+        marginTop: 20,
         fontSize: 20,
         fontStyle: 'bold'
     },
@@ -152,7 +157,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontSize: 20,
     },
-    pwViewStyle: {
+    pnViewStyle: {
         flexDirection: 'row',
     },
     /* 버튼 */
@@ -165,6 +170,10 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: Color.blue,
         borderRadius: 5
+    },
+    textStyle: {
+        fontSize: 18,
+        color: 'white'
     },
     pwButtonStyle: {
         alignItems: 'center',
@@ -179,7 +188,6 @@ const styles = StyleSheet.create({
     /* 구분선 */
     border: {
         marginTop: 30,
-        marginHorizontal: 20,
         width: 350,
         height: 2,
         backgroundColor: Color.graymist

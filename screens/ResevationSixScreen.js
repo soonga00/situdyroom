@@ -1,9 +1,7 @@
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal, TextInput } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Table, Row, Col, TableWrapper, Cell } from 'react-native-table-component'
 import Color from '../colors/uosColors';
-import { useState } from 'react';
-
 
 function ReservationSixScreen({ navigation }) {
 
@@ -21,16 +19,13 @@ function ReservationSixScreen({ navigation }) {
     const cellPossible = (rowNum, colNum) => (
         < TouchableOpacity onPress={() => { setModalVisible(true), setDuration(0), setRow(rowNum), setCol(colNum) }}>
             <View style={styles.reservationPossible}>
-                <Text>      </Text>
             </View>
         </TouchableOpacity >
     )
     const reserve = () => {
         if (classNum1.length != 10)
             Alert.alert("6인실 최소 예약 인원은\n 3명 입니다.\n 학번을 다시 입력하세요")
-        else if (classNum2.length != 10 && classNum1 == classNum2)
-            Alert.alert("6인실 최소 예약 인원은 3명 입니다.\n 학번을 다시 입력하세요")
-        else if (classNum3.length != 10 && classNum1 == classNum3 && classNum2 == classNum3)
+        else if (classNum2.length != 10)
             Alert.alert("6인실 최소 예약 인원은 3명 입니다.\n 학번을 다시 입력하세요")
         else if (duration == 0)
             Alert.alert("시간을 선택하세요")
@@ -41,7 +36,6 @@ function ReservationSixScreen({ navigation }) {
         }
 
     }
-
 
     let today = new Date();
     let newDay = new Date(today);
@@ -107,7 +101,7 @@ function ReservationSixScreen({ navigation }) {
                 transparent={true}
                 visible={modalVisible}
             >
-                <View style={styles.centeredView}>
+                <View style={styles.horizontalCenteredM}>
                     <View style={styles.modalView}>
                         <Text style={styles.modalTextStyle}>학번</Text>
                         <TextInput
@@ -164,6 +158,7 @@ function ReservationSixScreen({ navigation }) {
                             maxLength={10}
                             returnKeyType="done"
                         />
+
                         <Text style={styles.modalTextStyle}>사용 시간</Text>
                         <View style={styles.durationStyle}>
                             <TouchableOpacity onPress={() => setDuration(1)}>
@@ -217,67 +212,73 @@ function ReservationSixScreen({ navigation }) {
 
                 </View>
             </Modal>
-            <Text style={styles.titleStyle}>SITUDY ROOM</Text>
-            <ScrollView>
-                <View style={styles.tableStyle}>
-                    <Table borderStyle={{ borderWidth: 2, borderColor: Color.blue }}>
-                        <Row data={tableDay}
-                            widthArr={[78, 40, 40, 40, 40, 40, 40, 40]}
-                            style={styles.rowStyle}
-                            textStyle={styles.tableTextStyle} />
-                        <TableWrapper
-                            style={styles.tableWrapperStyle}
-                        >
-                            <Col data={tableTime}
-                                width={78}
-                                heightArr={[40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40]}
-                                textStyle={styles.tableTextStyle}
-                                style={styles.colStyle}
-                            />
-                            {
-                                tableData.map((rowData, index) => (
-                                    <TableWrapper key={index} style={styles.timeStyle} >
-                                        {
-                                            rowData.map((cellData, cellIndex) => (
-                                                <Cell key={cellIndex} data={index == 1 ? cellPossible(cellIndex, index) : cellData} />
+            <View style={styles.horizontalCentered}>
+                <Text style={styles.titleStyle}>SITUDY ROOM</Text>
+                <ScrollView>
+                    <View style={styles.tableStyle}>
+                        <Table borderStyle={{ borderWidth: 2, borderColor: Color.blue }}>
+                            <Row data={tableDay}
+                                widthArr={[78, 40, 40, 40, 40, 40, 40, 40]}
+                                style={styles.rowStyle}
+                                textStyle={styles.tableTextStyle} />
+                            <TableWrapper
+                                style={styles.tableWrapperStyle}
+                            >
+                                <Col data={tableTime}
+                                    width={78}
+                                    heightArr={[40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40]}
+                                    textStyle={styles.tableTextStyle}
+                                    style={styles.colStyle}
+                                />
+                                {
+                                    tableData.map((rowData, index) => (
+                                        <TableWrapper key={index} style={styles.timeStyle} >
+                                            {
+                                                rowData.map((cellData, cellIndex) => (
+                                                    <Cell key={cellIndex} data={index % 2 != 0 ? cellPossible(cellIndex, index) : cellData} />
 
-                                            ))
-                                        }
-                                    </TableWrapper>
-                                ))
-                            }
+                                                ))
+                                            }
+                                        </TableWrapper>
+                                    ))
+                                }
 
-                        </TableWrapper>
-                    </Table>
-                </View>
-            </ScrollView >
+                            </TableWrapper>
+                        </Table>
+                    </View>
+                </ScrollView >
+            </View>
+
         </SafeAreaView >
     )
 }
 
 const styles = StyleSheet.create({
+    horizontalCentered: {
+        alignItems: 'center'
+    },
+    horizontalCenteredM: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     /* 제목 */
     titleStyle: {
         color: Color.blue,
         marginTop: 30,
         fontSize: 50,
         fontStyle: 'bold',
-        alignContent: 'center',
-        textAlign: 'center',
+
     },
     tableStyle: {
-        flex: 1,
-        alignContent: 'center',
-        justifyContent: 'center',
-        paddingLeft: 15,
-        paddingTop: 30,
-        paddingBottom: 70,
+        marginTop: 30,
+        paddingBottom: 150,
     },
     tableWrapperStyle: {
         flexDirection: 'row',
     },
     rowStyle: {
-        height: 30,
+        height: 40,
         backgroundColor: Color.blueLight
     },
     colStyle: {
@@ -287,28 +288,17 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     reservationPossible: {
-        backgroundColor: Color.emerald,
+        backgroundColor: Color.bluemist,
         width: 38,
         height: 38
-    },
-    reservationImpossible: {
-        backgroundColor: Color.gray,
-        width: 10
     },
     timeStyle: {
         width: 40
     },
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22,
-    },
     modalView: {
-        margin: 20,
         padding: 40,
         backgroundColor: "white",
-        borderRadius: 20,
+        borderRadius: 15,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
