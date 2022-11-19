@@ -2,9 +2,17 @@ import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Ale
 import React, { useState } from 'react'
 import { Table, Row, Col, TableWrapper, Cell } from 'react-native-table-component'
 import Color from '../colors/uosColors';
+import axios from 'axios';
 
 function ReservationFourScreen({ navigation }) {
-
+    axios.post('http://172.20.10.2:3001/check', {
+    }).then(function (response) {
+        response.data
+        // const date = response.date;
+        console.log(response.data)
+    }).catch(function (err) {
+        console.log(err);
+    })
     const [modalVisible, setModalVisible] = useState(false)
     const [classNum1, setClassNum1] = useState(0)
     const [classNum2, setClassNum2] = useState(0)
@@ -30,8 +38,27 @@ function ReservationFourScreen({ navigation }) {
         else {
             Alert.alert("예약이 완료되었습니다\n 학번\n" + classNum1 + "\n" + classNum2 + "\n" + classNum3 + "\n" + classNum4 + "\n시간\n" + duration + "\n" + RowNum + "행" + ColNum + "열")
             setModalVisible(false)
-            navigation.navigate('Main')
+            axios.post('http://172.20.10.2:3001/reserve', {
+                time: RowNum + 1,
+                date: ColNum,
+                user1: classNum1,
+                user2: classNum2,
+                user3: classNum3,
+                user4: classNum4,
+                duration: duration
+            })
+                .then(function (response) {
+                    if (response.data) {
+                        navigation.navigate('Main');
+                    }
+                    else
+                        Alert.alert("예약할 수 없는 시간입니다.")
+                })
+                .catch(function (error) {
+                    console.log(`reserve post error : ${error}`);
+                });
         }
+
 
     }
 
@@ -92,7 +119,6 @@ function ReservationFourScreen({ navigation }) {
     ];
 
     return (
-
         <SafeAreaView>
             <Modal
                 animationType='slide'

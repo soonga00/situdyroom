@@ -2,19 +2,34 @@ import React, { useState } from "react";
 import { SafeAreaView, Text, StyleSheet, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import Color from '../colors/uosColors';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 function LoginScreen({ navigation }) {
     const [ID, setID] = useState('')
     const [PW, setPW] = useState('')
-
+    AsyncStorage.setItem('userID', ID, () => {
+        console.log("id 넘기기");
+    });
     const onPressLogin = () => {
         if (ID == '')
             Alert.alert("아이디가 올바르지 않습니다.")
         else if (PW == '')
             Alert.alert("비밀번호가 올바르지 않습니다.")
-        else {
-            navigation.navigate('Main')
-        }
+        axios.post('http://172.20.10.2:3001/user', {
+            inputID: ID,
+            inputPW: PW
+        })
+            .then(function (response) {
+                if (response.data)
+                    navigation.navigate('Main');
+                else
+                    Alert.alert("Login Failed")
+            })
+            .catch(function (error) {
+                console.log(`login post error : ${error}`);
+            });
     }
     const onPressFind = () => {
         navigation.navigate('Find ID')

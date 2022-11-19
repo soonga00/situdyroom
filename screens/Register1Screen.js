@@ -3,6 +3,8 @@ import CheckBox from 'expo-checkbox';
 import React, { useState } from "react";
 import Color from '../colors/uosColors';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import axios from 'axios';
+
 function Register1Screen({ navigation }) {
     const [name, setName] = useState('')
     const [classNum, setClassNum] = useState(0)
@@ -28,9 +30,23 @@ function Register1Screen({ navigation }) {
         else if (PW != PW2)
             Alert.alert("비밀번호를 다시 확인하세요")
         else
-            navigation.navigate('Register3')
+            axios.post('http://172.20.10.2:3001/register', {
+                inputName: name,
+                inputClassNum: classNum,
+                inputPhoneNum: phoneNum,
+                inputID: ID,
+                inputPW: PW
+            })
+                .then(function (response) {
+                    console.log(response.data);
+                    navigation.navigate('Register3')
+                })
+                .catch(function (error) {
+                    console.log(`axios.post error : ${error}`);
+                });
 
     }
+
     return (
         <SafeAreaView>
             <KeyboardAwareScrollView>

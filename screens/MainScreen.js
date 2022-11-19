@@ -1,13 +1,32 @@
-import { StyleSheet, Text, SafeAreaView, TouchableOpacity, Button, View } from 'react-native'
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Color from '../colors/uosColors';
-function MainScreen({ navigation }) {
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
+
+function MainScreen({ navigation }) {
     const onPressReserv = () => {
+        axios.post("http://172.20.10.2:3001/database", {
+        }).then(function (response) {
+        }).catch(function (err) {
+            console.log(err);
+        })
         navigation.navigate('Main Reservation')
     }
     const onPressCheckReserv = () => {
-
+        AsyncStorage.getItem('userID', (err, result) => {
+            console.log(result); // User1 출력
+            axios.post('http://172.20.10.2:3001/my_reservation', { // 내 예약가져오기
+                inputID: result
+            }).then(function (response) {
+                // console.log(response.data);
+            }).catch(function (err) {
+                console.log(err);
+            });
+        });
+        navigation.navigate('Check Reservation')
     }
     const onPressEnter = () => {
 

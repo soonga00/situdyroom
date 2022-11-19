@@ -10,7 +10,7 @@ import * as ImagePicker from 'expo-image-picker';
 import React from 'react'
 import Color from '../colors/uosColors';
 import { useState } from 'react';
-
+import axios from 'axios';
 
 
 

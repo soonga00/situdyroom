@@ -11,6 +11,7 @@ import MainScreen from "./screens/MainScreen";
 import ReservationMainScreen from "./screens/ResevationMainScreen";
 import ReservationFourScreen from "./screens/ReservationFourScreen";
 import ReservationSixScreen from "./screens/ResevationSixScreen";
+import CheckReservationScreen from "./screens/CheckReservationScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ function App() {
       <Stack.Screen name="Main Reservation" component={ReservationMainScreen} />
       <Stack.Screen name="Four Reservation" component={ReservationFourScreen} />
       <Stack.Screen name="Six Reservation" component={ReservationSixScreen} />
+      <Stack.Screen name="Check Reservation" component={CheckReservationScreen} />
     </Stack.Navigator>
   </NavigationContainer>
 }
