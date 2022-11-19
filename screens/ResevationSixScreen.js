@@ -2,8 +2,38 @@ import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Ale
 import React, { useState } from 'react'
 import { Table, Row, Col, TableWrapper, Cell } from 'react-native-table-component'
 import Color from '../colors/uosColors';
+import axios from 'axios';
+const address = require('../ipAddress')
+
+
+const tableData = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
 
 function ReservationSixScreen({ navigation }) {
+    axios.post(`http://${address.addr}:3001/check`, {
+    }).then(function (response) {
+        // const date = response.date;
+        console.log(response.data);
+        for(var i = 0; i < 7; i++) {
+            var cnt = 0
+            cnt = response.data[i].length
+            for (var j = 0; j < cnt; j++)
+            {
+                var rrr = response.data[i][j].date_num
+                var ccc = response.data[i][j].id - 1
+                tableData[rrr][ccc] = 1
+                }
+        }
+    }).catch(function (err) {
+        console.log(err);
+    })
 
     const [modalVisible, setModalVisible] = useState(false)
     const [classNum1, setClassNum1] = useState(0)
@@ -17,10 +47,12 @@ function ReservationSixScreen({ navigation }) {
     const [ColNum, setCol] = useState(0)
 
     const cellPossible = (rowNum, colNum) => (
-        < TouchableOpacity onPress={() => { setModalVisible(true), setDuration(0), setRow(rowNum), setCol(colNum) }}>
-            <View style={styles.reservationPossible}>
-            </View>
+        < TouchableOpacity onPress={() => { setModalVisible(true), setDuration(0), setRow(rowNum), setCol(colNum) }}
+            style={styles.reservationPossible} >
         </TouchableOpacity >
+    )
+    const cellImPossible = () => (
+        <View style={styles.reservationImpossible}></View>
     )
     const reserve = () => {
         if (classNum1.length != 10)
@@ -31,8 +63,28 @@ function ReservationSixScreen({ navigation }) {
             Alert.alert("시간을 선택하세요")
         else {
             Alert.alert("예약이 완료되었습니다\n 학번\n" + classNum1 + "\n" + classNum2 + "\n" + classNum3 + "\n" + classNum4 + "\n" + classNum5 + "\n" + classNum6 + "\n시간\n" + duration + "\n" + RowNum + "행" + ColNum + "열")
-            setModalVisible(false)
-            navigation.navigate('Main')
+            setModalVisible(false);
+            axios.post(`http://${address.addr}/reserve`, {
+                time: RowNum + 1,
+                date: ColNum,
+                user1: classNum1,
+                user2: classNum2,
+                user3: classNum3,
+                user4: classNum4,
+                user5: classNum5,
+                user6: classNum6,
+                duration: duration
+            })
+                .then(function (response) {
+                    if (response.data) {
+                        navigation.navigate('Main');
+                    }
+                    else
+                        Alert.alert("예약할 수 없는 시간입니다.")
+                })
+                .catch(function (error) {
+                    console.log(`reserve post error : ${error}`);
+                });
         }
 
     }
@@ -83,15 +135,7 @@ function ReservationSixScreen({ navigation }) {
         '20:00~20:30', '20:30~21:00',
         '21:00~21:30', '21:30~22:00'
     ]
-    const tableData = [
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-    ];
+
 
     return (
 
@@ -235,7 +279,7 @@ function ReservationSixScreen({ navigation }) {
                                         <TableWrapper key={index} style={styles.timeStyle} >
                                             {
                                                 rowData.map((cellData, cellIndex) => (
-                                                    <Cell key={cellIndex} data={index % 2 != 0 ? cellPossible(cellIndex, index) : cellData} />
+                                                    <Cell key={cellIndex} data={cellData == 0 ? cellPossible(cellIndex, index) : cellImPossible()} />
 
                                                 ))
                                             }
@@ -289,6 +333,11 @@ const styles = StyleSheet.create({
     },
     reservationPossible: {
         backgroundColor: Color.bluemist,
+        width: 38,
+        height: 38
+    },
+    reservationImpossible: {
+        backgroundColor: Color.graymist,
         width: 38,
         height: 38
     },

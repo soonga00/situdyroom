@@ -4,6 +4,7 @@ import Color from '../colors/uosColors';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
+const address = require('../ipAddress')
 
 var my_id;
 var name = '';
@@ -15,7 +16,7 @@ var reservationArr = ['2022-11-18', '09:00~12:00', 'STUDYROOM 1']
 function CheckReservationScreen({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false)
     AsyncStorage.getItem('userID', (err, result) => {
-        axios.post('http://172.20.10.2:3001/info', { // 내 예약가져오기
+        axios.post(`http://${address.addr}:3001/info`, { // 내 예약가져오기
             inputID: result
         }).then(function (response) {
             name = response.data.name;

@@ -3,13 +3,32 @@ import React, { useState } from 'react'
 import { Table, Row, Col, TableWrapper, Cell } from 'react-native-table-component'
 import Color from '../colors/uosColors';
 import axios from 'axios';
+const address = require('../ipAddress')
 
+const tableData = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
 function ReservationFourScreen({ navigation }) {
-    axios.post('http://172.20.10.2:3001/check', {
+    axios.post(`http://${address.addr}:3001/check`, {
     }).then(function (response) {
-        response.data
         // const date = response.date;
-        console.log(response.data)
+        console.log(response.data);
+        for(var i = 0; i < 7; i++) {
+            var cnt = 0
+            cnt = response.data[i].length
+            for (var j = 0; j < cnt; j++)
+            {
+                var r = response.data[i][j].date_num
+                var c = response.data[i][j].id - 1
+                tableData[r][c] = 1
+                }
+        }
     }).catch(function (err) {
         console.log(err);
     })
@@ -21,13 +40,16 @@ function ReservationFourScreen({ navigation }) {
     const [duration, setDuration] = useState(0)
     const [RowNum, setRow] = useState(0)
     const [ColNum, setCol] = useState(0)
-
+    
     const cellPossible = (rowNum, colNum) => (
-        < TouchableOpacity onPress={() => { setModalVisible(true), setDuration(0), setRow(rowNum), setCol(colNum) }}>
-            <View style={styles.reservationPossible}>
-            </View>
+        < TouchableOpacity onPress={() => { setModalVisible(true), setDuration(0), setRow(rowNum), setCol(colNum) }}
+            style={styles.reservationPossible} >
         </TouchableOpacity >
     )
+    const cellImPossible = () => (
+        <View style={styles.reservationImpossible}></View>
+    )
+    
     const reserve = () => {
         if (classNum1.length != 10)
             Alert.alert("4인실 최소 예약 인원은\n 2명 입니다.\n 학번을 다시 입력하세요")
@@ -38,7 +60,7 @@ function ReservationFourScreen({ navigation }) {
         else {
             Alert.alert("예약이 완료되었습니다\n 학번\n" + classNum1 + "\n" + classNum2 + "\n" + classNum3 + "\n" + classNum4 + "\n시간\n" + duration + "\n" + RowNum + "행" + ColNum + "열")
             setModalVisible(false)
-            axios.post('http://172.20.10.2:3001/reserve', {
+            axios.post(`http://${address.addr}/reserve`, {
                 time: RowNum + 1,
                 date: ColNum,
                 user1: classNum1,
@@ -108,15 +130,6 @@ function ReservationFourScreen({ navigation }) {
         '20:00~20:30', '20:30~21:00',
         '21:00~21:30', '21:30~22:00'
     ]
-    const tableData = [
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-    ];
 
     return (
         <SafeAreaView>
@@ -240,7 +253,7 @@ function ReservationFourScreen({ navigation }) {
                                         <TableWrapper key={index} style={styles.timeStyle} >
                                             {
                                                 rowData.map((cellData, cellIndex) => (
-                                                    <Cell key={cellIndex} data={index % 2 != 0 ? cellPossible(cellIndex, index) : cellData} />
+                                                    <Cell key={cellIndex} data={cellData == 0 ? cellPossible(cellIndex, index) : cellImPossible()} />
 
                                                 ))
                                             }
@@ -293,6 +306,11 @@ const styles = StyleSheet.create({
     },
     reservationPossible: {
         backgroundColor: Color.bluemist,
+        width: 38,
+        height: 38
+    },
+    reservationImpossible: {
+        backgroundColor: Color.graymist,
         width: 38,
         height: 38
     },

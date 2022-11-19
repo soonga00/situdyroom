@@ -4,6 +4,7 @@ import Color from '../colors/uosColors';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+const address = require('../ipAddress')
 
 
 function LoginScreen({ navigation }) {
@@ -17,7 +18,7 @@ function LoginScreen({ navigation }) {
             Alert.alert("아이디가 올바르지 않습니다.")
         else if (PW == '')
             Alert.alert("비밀번호가 올바르지 않습니다.")
-        axios.post('http://172.20.10.2:3001/user', {
+        axios.post(`http://${address.addr}:3001/user`, {
             inputID: ID,
             inputPW: PW
         })

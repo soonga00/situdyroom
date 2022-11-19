@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Color from '../colors/uosColors';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import axios from 'axios';
+const address = require('../ipAddress')
 
 function Register1Screen({ navigation }) {
     const [name, setName] = useState('')
@@ -30,7 +31,7 @@ function Register1Screen({ navigation }) {
         else if (PW != PW2)
             Alert.alert("비밀번호를 다시 확인하세요")
         else
-            axios.post('http://172.20.10.2:3001/register', {
+            axios.post(`http://${address.addr}:3001/register`, {
                 inputName: name,
                 inputClassNum: classNum,
                 inputPhoneNum: phoneNum,

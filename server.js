@@ -67,7 +67,7 @@ app.post("/register", function (req, res) {
 });
 
 app.post("/database", function (req, res) {
-    var today = new Date();
+    var today = new Date(0);
     db.query(`SELECT date from d0 where id=1;`, function (err, results) {
         if (today > results[0].date) {
             for (var i = 1; i <= 6; i++) {
@@ -108,16 +108,16 @@ app.post("/reserve", function (req, res) {
                 db.query(`UPDATE d${post.date} SET user1_id='${post.user1}', user2_id='${post.user2}', user3_id='${post.user3}', user4_id='${post.user4}', reserved=1 WHERE id='${time}';`, function (err) {
                     if (err) console.log(err);
                 });
-                db.query(`select time from d${post.date} where id=${time}`, function (err, times) {
-                    if (post.user1)
-                        db.query(`INSERT INTO reservations (st_num, date, time, room) VALUES (${post.user1}, '${post.date}', '${times[0].time}', 'STUDYROOM 1')`)
-                    if (post.user2)
-                        db.query(`INSERT INTO reservations (st_num, date, time, room) VALUES (${post.user2}, '${post.date}', '${times[0].time}', 'STUDYROOM 1')`)
-                    if (post.user3)
-                        db.query(`INSERT INTO reservations (st_num, date, time, room) VALUES (${post.user3}, '${post.date}', '${times[0].time}', 'STUDYROOM 1')`)
-                    if (post.user4)
-                        db.query(`INSERT INTO reservations (st_num, date, time, room) VALUES (${post.user4}, '${post.date}', '${times[0].time}', 'STUDYROOM 1')`)
-                });
+                // db.query(`select time from d${post.date} where id=${time}`, function (err, times) {
+                //     if (post.user1)
+                //         db.query(`INSERT INTO reservations (st_num, date, time, room) VALUES (${post.user1}, '${post.date}', '${times[0].time}', 'STUDYROOM 1')`)
+                //     if (post.user2)
+                //         db.query(`INSERT INTO reservations (st_num, date, time, room) VALUES (${post.user2}, '${post.date}', '${times[0].time}', 'STUDYROOM 1')`)
+                //     if (post.user3)
+                //         db.query(`INSERT INTO reservations (st_num, date, time, room) VALUES (${post.user3}, '${post.date}', '${times[0].time}', 'STUDYROOM 1')`)
+                //     if (post.user4)
+                //         db.query(`INSERT INTO reservations (st_num, date, time, room) VALUES (${post.user4}, '${post.date}', '${times[0].time}', 'STUDYROOM 1')`)
+                // });
 
             }
             res.json(true);
