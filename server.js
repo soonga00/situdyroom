@@ -86,7 +86,7 @@ app.post("/database", function (req, res) {
 app.post("/check", function (req, res) {
     var data = [];
     for (var i = 0; i <= 6; i++) {
-        let a = db2.query(`SELECT id, date_num FROM d${i} WHERE reserved=1`);
+        let a = db2.query(`SELECT id, date_num FROM roomd${i} WHERE reserved=1`);
         data.push(a);
         // let a = db.query(`SELECT id, date_num FROM d${i} WHERE reserved=1`, function (err, rows) {
         //     data.push(a);

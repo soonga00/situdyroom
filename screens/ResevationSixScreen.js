@@ -2,8 +2,8 @@ import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Ale
 import React, { useState } from 'react'
 import { Table, Row, Col, TableWrapper, Cell } from 'react-native-table-component'
 import Color from '../colors/uosColors';
-import axios from 'axios';
-const address = require('../ipAddress')
+// import axios from 'axios';
+// const address = require('../ipAddress')
 
 
 const tableData = [
@@ -17,23 +17,23 @@ const tableData = [
 ];
 
 function ReservationSixScreen({ navigation }) {
-    axios.post(`http://${address.addr}:3001/check`, {
-    }).then(function (response) {
-        // const date = response.date;
-        console.log(response.data);
-        for(var i = 0; i < 7; i++) {
-            var cnt = 0
-            cnt = response.data[i].length
-            for (var j = 0; j < cnt; j++)
-            {
-                var rrr = response.data[i][j].date_num
-                var ccc = response.data[i][j].id - 1
-                tableData[rrr][ccc] = 1
-                }
-        }
-    }).catch(function (err) {
-        console.log(err);
-    })
+    // axios.post(`http://${address.addr}:3001/check`, {
+    // }).then(function (response) {
+    //     // const date = response.date;
+    //     console.log(response.data);
+    //     for(var i = 0; i < 7; i++) {
+    //         var cnt = 0
+    //         cnt = response.data[i].length
+    //         for (var j = 0; j < cnt; j++)
+    //         {
+    //             var rrr = response.data[i][j].date_num
+    //             var ccc = response.data[i][j].id - 1
+    //             tableData[rrr][ccc] = 1
+    //             }
+    //     }
+    // }).catch(function (err) {
+    //     console.log(err);
+    // })
 
     const [modalVisible, setModalVisible] = useState(false)
     const [classNum1, setClassNum1] = useState(0)
